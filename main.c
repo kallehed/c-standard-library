@@ -63,7 +63,7 @@ int main(/*int argc, char *argv[]*/)
 
     print("watermark: %ld \n", ks.watermark - ks.allocat);
 
-    print("hello: %c!%c%c %ld my string: %s \n", 'x', 'y', 'z', 2382147483647, "coolio");
+    print("hello: %c!%c%c %ld my string: %s \n, my double: %f", 'x', 'y', 'z', 2382147483647, "coolio", 23.32);
 
     return 0;
 }

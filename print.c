@@ -6,6 +6,23 @@
 #include <stdarg.h>
 #include <string.h>
 
+void print_long(long my_long)
+{
+    // print a long
+    // max long value: 9223372036854775807 which is 19 digits
+    char digits[19];
+    int digit_idx = sizeof(digits) / sizeof(char) - 1;
+    for (;; --digit_idx)
+    {
+        char ch = (my_long % 10) + '0';
+        digits[digit_idx] = ch;
+        if (my_long < 10)
+            break;
+        my_long /= 10;
+    }
+    write(STDOUT_FILENO, &digits[digit_idx], sizeof(digits) / sizeof(char) - digit_idx);
+}
+
 void print(const char *format, ...) // TODO fix so less writes are done
 {
     va_list argp;
@@ -43,18 +60,8 @@ void print(const char *format, ...) // TODO fix so less writes are done
                 case 'd': {
                     // print a long
                     // max long value: 9223372036854775807 which is 19 digits
-                    char digits[19];
-                    long my_int = va_arg(argp, long);
-                    int digit_idx = sizeof(digits) / sizeof(char) - 1;
-                    for (;; --digit_idx)
-                    {
-                        char ch = (my_int % 10) + '0';
-                        digits[digit_idx] = ch;
-                        if (my_int < 10)
-                            break;
-                        my_int /= 10;
-                    }
-                    write(STDOUT_FILENO, &digits[digit_idx], sizeof(digits) / sizeof(char) - digit_idx);
+                    long my_long = va_arg(argp, long);
+                    print_long(my_long);
                 }
                 break;
                 }
@@ -85,6 +92,17 @@ void print(const char *format, ...) // TODO fix so less writes are done
             }
             break;
             case 'f': {
+                // floating point
+                double my_float = va_arg(argp, double);
+                long long_part = (long)my_float;
+                double fractional_part = my_float - (double)long_part;
+
+                print_long(long_part);
+                write(STDOUT_FILENO, ".", 1);
+                fractional_part *= 1000000;
+                long fractional_part_long = (long)fractional_part;
+                print_long(fractional_part_long);
+                
             }
             break;
             case 'c': {
