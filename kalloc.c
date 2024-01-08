@@ -1,6 +1,6 @@
+#include <stdbool.h>
 #include <sys/mman.h>
 #include <unistd.h>
-#include <stdbool.h>
 
 #include "kalloc.h"
 

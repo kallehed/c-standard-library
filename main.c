@@ -7,19 +7,6 @@
 #include "print.h"
 #include <stdlib.h> // for time and srand, rand
 
-// cc -Wall -Wextra -Wpedantic -static -g main.c kalloc.c print.c -o a.out && ./a.out
-
-// STATS:
-// An allocator that DOES NOT submerge freed blocks, will, at 200 pointers,
-// for 100000 iterations of freeing and allocing random pointers for random
-// sizes between 0 and 10000 give: 5011989, 5186591, 4961949 as watermark
-
-// with merging a single block to the right: 897004, 911532, 945807, 933199. 6 times less memory used!
-
-// merging as many blocks as possible to the right: 838301, 830599, 842365, 825858. A little less mem use
-
-// merging to both right and left, truly coalescing: 782998, 750396, 756740, 782717. Even less
-
 int main(/*int argc, char *argv[]*/)
 {
     print("time: %ld\n", time(NULL));
